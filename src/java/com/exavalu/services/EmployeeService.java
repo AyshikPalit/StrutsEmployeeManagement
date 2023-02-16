@@ -13,12 +13,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
+import org.apache.log4j.Logger;
+import org.apache.log4j.Level;
 
 /**
  *
- * @author Avijit Chattopadhyay
+ * @author Ayshik Palit
  */
 public class EmployeeService {
+    private static final Logger logger = Logger.getLogger(EmployeeService.class.getName());
     
     public static EmployeeService employeeService = null;
     
@@ -63,7 +68,7 @@ public class EmployeeService {
             }
 
         } catch (SQLException ex) {
-            
+            logger.error("There is an error",ex);
         }
         System.out.println("Number of employees = " + empList.size());
         return empList;
@@ -194,9 +199,9 @@ public class EmployeeService {
         return result;
     }
     
-    public static boolean deleteEmployee(String employeeId) {
+    public static boolean deleteEmployee(String employeeId) throws SQLException {
         boolean result = false;
-        try (Connection con = JDBCConnectionManager.getConnection()) {
+        Connection con = JDBCConnectionManager.getConnection(); 
 
             String sql = "Update employees set isDeleted=1 WHERE employeeId = ?";
 
@@ -207,9 +212,6 @@ public class EmployeeService {
             if (row == 1) {
                 result = true;
             }
-        } catch (SQLException ex) {
-            
-        }
         return result;
     }
 }

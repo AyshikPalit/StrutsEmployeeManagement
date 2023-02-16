@@ -1,26 +1,12 @@
-<%-- 
-    Document   : landingPage
-    Created on : 22-Dec-2022, 12:00:33 PM
-    Author     : Avijit Chattopadhyay
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <!--        <link href="css/header.css" rel="stylesheet">-->
-        <link rel="stylesheet" href="css/all.min.css">
-        <link rel="stylesheet" href="css/reset-min.css">
-        <link rel="stylesheet" href="css/algolia-min.css">
-        <link rel="stylesheet" href="css/header.css">
-        <link rel="stylesheet" href="css/docs.min.css">
-        <link rel="stylesheet" href="css/index.css">
-        <title>Employee Management</title>
-    </head>
-    <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
-
-    <jsp:include page="menu.jsp"></jsp:include>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<c:if test="${empty sessionScope.User}" >
+    <jsp:forward page="login.jsp"/>
+</c:if>
+   <body>
+         
+    <main>
+        
     <h1><b><center><u>-: Employee List :-</u></center></b></h1>
         <div id="example">
             <script>
@@ -138,5 +124,6 @@
                 }
             </script>
         </div>
-
-</html>
+        </div>
+    </main>
+ </body>

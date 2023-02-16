@@ -1,5 +1,8 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:if test="${empty sessionScope.User}" >
+    <jsp:forward page="login.jsp"/>
+</c:if>
 <!doctype html>
 <html lang="en">
     <head>
@@ -31,9 +34,9 @@
     </head>
 
     <body class="text-center">
-        <jsp:include page="menu.jsp"></jsp:include>
+        <%--<jsp:include page="menu.jsp"></jsp:include>--%>
 
-            <main class="form-signin w-25 m-auto">
+            <main id="tableShow" class="form-signin w-25 m-auto">
                 <form action="AddEmployee" method="Post">
                     <img class="mb-4" src="images/profilePhoto.png" alt="" width="100" height="100">
 
@@ -111,5 +114,6 @@
             </form>
 
         </main>
+        
     </body>
 </html>

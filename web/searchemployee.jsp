@@ -40,7 +40,7 @@
         <link href="css/menu_css.css" rel="stylesheet">
     </head>
 
-    <jsp:include page="menu.jsp"></jsp:include>
+    <%--<jsp:include page="menu.jsp"></jsp:include>--%>
     <h1><b><center><u>Enter Employee Details</u></center></b></h1>
     <div class="table-responsive">
         <table class="table table-striped">

@@ -4,6 +4,7 @@
  */
 package com.exavalu.models;
 
+import com.exavalu.services.APIService;
 import com.exavalu.services.EmployeeService;
 import com.exavalu.services.LoginService;
 import com.opensymphony.xwork2.ActionContext;
@@ -17,10 +18,11 @@ import org.apache.struts2.dispatcher.ApplicationMap;
 import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.ApplicationAware;
 import org.apache.struts2.interceptor.SessionAware;
+import org.json.simple.parser.ParseException;
 
 /**
  *
- * @author Avijit Chattopadhyay
+ * @author Ayshik Palit
  */
 public class Employee extends ActionSupport implements ApplicationAware, SessionAware, Serializable {
 
@@ -237,6 +239,36 @@ public class Employee extends ActionSupport implements ApplicationAware, Session
         if (result) {
             sessionMap.put("EmpList", empList);
             res = "SUCCESS";
+        }
+        return res;
+    }
+    
+        public String getDataFromAPI() throws ParseException, java.text.ParseException{
+        String result = "FAILURE";
+        ArrayList apiUsers = APIService.consumeDataFromAPI();
+        APIUser apiUser = new APIUser();
+        boolean res = APIService.insertDataInDB(apiUsers);
+        if(!apiUsers.isEmpty()){
+            result = "SUCCESS";
+            //String successMsg = "Entered API Data into Database!";
+            sessionMap.put("APIUsers", apiUsers);
+            sessionMap.put("APIUser", apiUser);
+            return result;
+        }
+        return result;
+    }
+        
+    public String showEmployee() throws Exception {
+        String res = "FAILURE";
+        ArrayList empList = EmployeeService.getAllEmployees();
+        
+        if (!empList.isEmpty()) {
+            sessionMap.put("EmpList",empList);
+            res = "SUCCESS";
+        }
+        else {
+            String empMsg = "Problem in fetching Employee List";
+            sessionMap.put("EmpMsg", empMsg);
         }
         return res;
     }

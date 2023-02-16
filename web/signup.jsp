@@ -18,8 +18,28 @@
         <link href="css/signin.css" rel="stylesheet">
 
     </head>
-
-    <body class="text-center">
+    
+  <body class="text-center">
+    <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+    <script>
+//        function submitForm()
+//        {
+//            signupForm.submit();
+//        }
+       function fetchContent(selectedId, targetId)
+                        {
+                $.ajax({
+                url: 'PreSignUp',
+                data: {
+                    [selectedId]: $("#" + selectedId).val()
+                                    },
+                                    success: function (responseText) {
+                                            $("#" + targetId).html(responseText);
+                                    }
+                                });
+                            }
+    </script>
+   
         <main class="form-signin w-100 m-auto">
             
                 <img class="mb-4" src="images/flower-logo.jpg" alt="" width="200" height="200">
@@ -30,23 +50,46 @@
                     <c:remove var="AlreadyExist"/>
                 </div>
                 </c:if>
-                <form action="Signup" method="Post">
+                <form action="PreSignUp" method="post" id="signupForm">
+                
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="firstName" placeholder="first name" name="firstName">
-                    <label for="firstName">First Name</label>
-                </div>
-                <div class="form-floating">
-                    <input type="text" class="form-control" id="lastName" placeholder="last name" name="lastName">
-                    <label for="firstName">Last Name</label>
-                </div>
-                <div class="form-floating">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="emailAddress">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="emailAddress" value="${User.getEmailAddress()}">
                     <label for="floatingInput">Email address</label>
                 </div>
                 <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" value="${User.getPassword()}">
                     <label for="floatingPassword">Password</label>
                 </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="firstName" placeholder="first name" name="firstName" value="${User.getFirstName()}">
+                    <label for="firstName">First Name</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="lastName" placeholder="last name" name="lastName" value="${User.getLastName()}">
+                    <label for="firstName">Last Name</label>
+                </div>
+                
+                <div class="form-floating">
+                    <select name="countryCode" class="form-select" id="countryCode" onchange="fetchContent('countryCode','stateCode')">
+                            <option value="" hidden>Select a Country</option>
+                            <c:forEach var="country" items="${CountryList}">
+                                <option value='${country.getCountryCode()}' <c:if test="${country.getCountryCode() == User.getCountryCode()}"> selected </c:if>>${country.getCountryName()} </option>
+                            </c:forEach>
+                    </select>
+                </div>
+                <div class="form-floating">
+                    <select name="stateCode" class="form-select" id="stateCode" onchange="fetchContent('stateCode','distCode')">
+                            <option value="" hidden>Select a State</option>
+
+                    </select>
+                </div> 
+                <div class="form-floating">
+                    <select name="distCode" class="form-select" id="distCode">
+                            <option value="" hidden>Select a District</option>
+                           
+                    </select>
+                </div> 
+                    
                
                 <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button>
                 <a href="landingPage.jsp">
